@@ -1,0 +1,19 @@
+{
+  "name": "12_employee_cms",
+  "version": "1.0.0",
+  "description": "manage a company's employee database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev" : "nodemon index.js"
+  },
+  "author": "Lindsey Lansford",
+  "license": "ISC",
+  "dependencies": {
+    "asciiart-logo": "^0.2.7",
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  }
+}
