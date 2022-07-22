@@ -87,7 +87,7 @@ const viewDepts = () => {
 
 const viewRoles = () => {
     console.log('Now viewing all Roles.\n');
-    const sql = 'SELECT * FROM roles;';
+    const sql = `SELECT roles.id, roles.title, roles.salary, departments.name AS department FROM departments RIGHT JOIN roles ON departments.id = roles.department_id ORDER BY roles.id;`;
 
     db.query(sql, (error, results) => {
         if (error) throw error;
@@ -130,15 +130,30 @@ const addDept = () => {
 };
 
 const addRole = () => {
-    console.log('Now adding a new Role.')
+    console.log('Now adding a new Role.\n')
+    // const sql = 'SELECT * FROM roles;';
+
+    // db.query(sql, (error, results) => {
+    //     if (error) throw error;
+    // });
 };
+
+
+
+
+
+
 
 const addEmployee = () => {
-    console.log('Now adding a new Employee.')
+    console.log('Now adding a new Employee.\n')
 };
 
+
+
+
+
 const updateEmployee = () => {
-    console.log('Now updating the Employee Role.')
+    console.log('Now updating the Employee Role.\n')
 };
 
 
