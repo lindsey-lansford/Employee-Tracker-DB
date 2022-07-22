@@ -18,7 +18,7 @@ const db = mysql.createConnection({
 db.connect(error => {
     if (error) throw error;
     //asciiart logo
-    console.log(logo({ name: 'Welcome' }).render());
+    // console.log(logo({ name: 'Welcome' }).render());
     //initializes the mainMenu prompts
     beginPrompts();
 })
@@ -75,7 +75,7 @@ const beginPrompts = () => {
 
 const viewDepts = () => {
     console.log('Now viewing all Departments.\n');
-    const sql = 'SELECT * FROM departments';
+    const sql = 'SELECT * FROM departments;';
 
     db.query(sql, (error, results) => {
         if (error) throw error;
@@ -87,7 +87,7 @@ const viewDepts = () => {
 
 const viewRoles = () => {
     console.log('Now viewing all Roles.\n');
-    const sql = 'SELECT * FROM roles';
+    const sql = 'SELECT * FROM roles;';
 
     db.query(sql, (error, results) => {
         if (error) throw error;
@@ -98,7 +98,15 @@ const viewRoles = () => {
 };
 
 const viewEmployees = () => {
-    console.log('Now viewing all Employees.')
+    console.log('Now viewing all Employees.\n')
+    const sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employees LEFT JOIN employees manager ON manager.id = employees.manager_id INNER JOIN roles ON (roles.id = employees.role_id) INNER JOIN departments ON (departments.id = roles.department_id);`;
+
+    db.query(sql, (error, results) => {
+        if (error) throw error;
+        console.table(results);
+
+        beginPrompts();
+    });
 };
 
 const addDept = () => {
@@ -110,7 +118,7 @@ const addDept = () => {
             message: 'Please enter the new department.'
         }
     ]).then((results) => {
-        const sql = 'INSERT INTO departments(name) VALUES (?)';
+        const sql = 'INSERT INTO departments(name) VALUES (?);';
         
         db.query(sql, results.newDept, (error, results) => {
             if (error) throw error;
