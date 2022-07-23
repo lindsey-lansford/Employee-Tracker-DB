@@ -115,6 +115,7 @@ const viewEmployees = () => {
 
 const addDept = () => {
     console.log('\n***** Adding New Department *****\n');
+    
     inquirer.prompt([
         {
             type: 'input',
@@ -136,8 +137,9 @@ const addDept = () => {
 
 const addRole = () => {
     console.log('\n***** Adding New Role *****\n');
+    const sql = 'SELECT * FROM departments';
 
-    db.query('SELECT * FROM departments', (error, results) => {
+    db.query(sql, (error, results) => {
         if(error) throw error;
         inquirer.prompt([
             {
@@ -181,6 +183,63 @@ const addRole = () => {
 
 const addEmployee = () => {
     console.log('\n***** Adding New Employee *****\n');
+    const sql = 'SELECT id, title FROM roles ORDER BY roles.id;';
+    
+    db.query(sql, (error, results) => {
+        if (error) throw error;
+
+        db.query('SELECT manager_id FROM employees;', (err, managers) => {
+            if (err) throw err;
+    
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'firstName',
+                message: "Please enter the employee's first name.",
+            },
+            {
+                type: 'input',
+                name: 'lastName',
+                message: "Please enter the employee's last name.",
+            },
+            {
+                type: 'list',
+                name: 'roleName',
+                message: "Please select the employee's new role.",
+                choices: 
+                    results.map(({ id, title }) => ({
+                        name: title,
+                        value: id
+                    }))
+            },
+            {
+                type: 'list',
+                name: 'managerName',
+                message: "Please select the employee's manager or select 'None'.",
+                choices:
+                    managers.map(({ id, }) => ({
+                        name: title,
+                        value: id
+                    })),
+            }
+        ])
+            .then((res) => {
+                db.query('INSERT INTO employees SET ?',
+                    {
+                        first_name: res.firstName,
+                        last_name: res.lastName,
+                        role_id: res.roleName,
+                        manager_id: res.managerName
+                    }
+                );
+                console.table(res);
+                viewEmployees();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        })
+    })
 };
 
 
