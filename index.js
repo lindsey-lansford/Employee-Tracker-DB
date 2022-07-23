@@ -73,8 +73,9 @@ const beginPrompts = () => {
     });
 };
 
+
 const viewDepts = () => {
-    console.log('Now viewing all Departments.\n');
+    console.log('\n***** Viewing All Departments *****\n');
     const sql = 'SELECT * FROM departments;';
 
     db.query(sql, (error, results) => {
@@ -85,8 +86,9 @@ const viewDepts = () => {
     });
 };
 
+
 const viewRoles = () => {
-    console.log('Now viewing all Roles.\n');
+    console.log('\n***** Viewing All Roles *****\n');
     const sql = `SELECT roles.id, roles.title, roles.salary, departments.name AS department FROM departments RIGHT JOIN roles ON departments.id = roles.department_id ORDER BY roles.id;`;
 
     db.query(sql, (error, results) => {
@@ -97,8 +99,9 @@ const viewRoles = () => {
     });
 };
 
+
 const viewEmployees = () => {
-    console.log('Now viewing all Employees.\n')
+    console.log('\n***** Viewing All Employees *****\n');
     const sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employees LEFT JOIN employees manager ON manager.id = employees.manager_id INNER JOIN roles ON (roles.id = employees.role_id) INNER JOIN departments ON (departments.id = roles.department_id);`;
 
     db.query(sql, (error, results) => {
@@ -109,13 +112,14 @@ const viewEmployees = () => {
     });
 };
 
+
 const addDept = () => {
-    console.log('Now adding a new Department.\n');
+    console.log('\n***** Adding New Department *****\n');
     inquirer.prompt([
         {
             type: 'input',
             name: 'newDept',
-            message: 'Please enter the new department.'
+            message: 'Please enter the new department you wish to add.'
         }
     ]).then((results) => {
         const sql = 'INSERT INTO departments(name) VALUES (?);';
@@ -129,23 +133,54 @@ const addDept = () => {
     });
 };
 
-const addRole = () => {
-    console.log('Now adding a new Role.\n')
-    // const sql = 'SELECT * FROM roles;';
 
-    // db.query(sql, (error, results) => {
-    //     if (error) throw error;
-    // });
+const addRole = () => {
+    console.log('\n***** Adding New Role *****\n');
+
+    db.query('SELECT * FROM departments', (error, results) => {
+        if(error) throw error;
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'title',
+                message: 'Please enter the new role you wish to add.',
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'Please enter the salary amount for this role.',
+            },
+            {
+                type: 'list',
+                message: 'Please select the department the role falls under.',
+                name: 'deptName',
+                choices:
+                results.map(({ id, name }) => ({
+                    name: name,
+                    value: id
+                }))
+            }
+        ])
+            .then((res) => {
+                db.query('INSERT INTO roles SET ?',
+                    {
+                        title: res.title,
+                        salary: res.salary,
+                        department_id: res.deptName
+                    }
+                );
+                console.table(res);
+                viewRoles();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
 };
 
 
-
-
-
-
-
 const addEmployee = () => {
-    console.log('Now adding a new Employee.\n')
+    console.log('\n***** Adding New Employee *****\n');
 };
 
 
@@ -153,7 +188,7 @@ const addEmployee = () => {
 
 
 const updateEmployee = () => {
-    console.log('Now updating the Employee Role.\n')
+    console.log('\n***** Updating Employee Role *****\n');
 };
 
 
