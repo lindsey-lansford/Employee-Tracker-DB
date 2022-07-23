@@ -137,7 +137,7 @@ const addDept = () => {
 
 const addRole = () => {
     console.log('\n***** Adding New Role *****\n');
-    const sql = 'SELECT * FROM departments';
+    const sql = 'SELECT * FROM departments ORDER BY departments.id;';
 
     db.query(sql, (error, results) => {
         if(error) throw error;
@@ -183,14 +183,25 @@ const addRole = () => {
 
 const addEmployee = () => {
     console.log('\n***** Adding New Employee *****\n');
-    const sql = 'SELECT id, title FROM roles ORDER BY roles.id;';
     
-    db.query(sql, (error, results) => {
+    const sqlRoles = 'SELECT id, title FROM roles ORDER BY roles.id;';
+    
+    db.query(sqlRoles, (error, rolesData) => {
         if (error) throw error;
+        const roleChoices = rolesData.map(({ id, title }) => ({
+            name: title,
+            value: id
+        }))
 
-        db.query('SELECT manager_id FROM employees;', (err, managers) => {
+        const sqlManagers = 'SELECT id, first_name, last_name, manager_id FROM employees;';
+        
+        db.query(sqlManagers, (err, managersData) => {
             if (err) throw err;
-    
+            const managerChoices = managersData.map(({ id, first_name, last_name, manager_id }) => ({
+                name: `${first_name} ${last_name} | ${manager_id}`,
+                value: id
+            }))
+
         inquirer.prompt([
             {
                 type: 'input',
@@ -206,21 +217,14 @@ const addEmployee = () => {
                 type: 'list',
                 name: 'roleName',
                 message: "Please select the employee's new role.",
-                choices: 
-                    results.map(({ id, title }) => ({
-                        name: title,
-                        value: id
-                    }))
+                choices: roleChoices
+                    
             },
             {
                 type: 'list',
                 name: 'managerName',
-                message: "Please select the employee's manager or select 'None'.",
-                choices:
-                    managers.map(({ id, }) => ({
-                        name: title,
-                        value: id
-                    })),
+                message: "Please select the employee's manager.",
+                choices: managerChoices
             }
         ])
             .then((res) => {
