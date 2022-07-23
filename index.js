@@ -66,7 +66,6 @@ const beginPrompts = () => {
                 updateEmployee();
                 break;
             case 'quit':
-                console.log('Thank you for using the Employee Tracker!');
                 db.end();
                 break;
         }
@@ -80,7 +79,10 @@ const viewDepts = () => {
 
     db.query(sql, (error, results) => {
         if (error) throw error;
+
+        console.log('\n');
         console.table(results);
+        console.log('\n');
 
         beginPrompts();
     });
@@ -93,7 +95,10 @@ const viewRoles = () => {
 
     db.query(sql, (error, results) => {
         if (error) throw error;
+
+        console.log('\n');
         console.table(results);
+        console.log('\n');
 
         beginPrompts();
     });
@@ -106,7 +111,10 @@ const viewEmployees = () => {
 
     db.query(sql, (error, results) => {
         if (error) throw error;
+        
+        console.log('\n');
         console.table(results);
+        console.log('\n');
 
         beginPrompts();
     });
@@ -127,10 +135,13 @@ const addDept = () => {
         
         db.query(sql, results.newDept, (error, results) => {
             if (error) throw error;
+
+            console.log('\n');
             console.table(results);
+            console.log('\n');
+            
+            viewDepts();
         });
-        
-        viewDepts();
     });
 };
 
@@ -171,7 +182,10 @@ const addRole = () => {
                         department_id: res.deptName
                     }
                 );
+                console.log('\n');
                 console.table(res);
+                console.log('\n');
+
                 viewRoles();
             })
             .catch((error) => {
@@ -193,7 +207,7 @@ const addEmployee = () => {
             value: id
         }))
 
-        const sqlManagers = 'SELECT id, first_name, last_name, manager_id FROM employees;';
+        const sqlManagers = 'SELECT id, first_name, last_name, manager_id FROM employees ORDER BY id;';
         
         db.query(sqlManagers, (err, managersData) => {
             if (err) throw err;
@@ -236,7 +250,10 @@ const addEmployee = () => {
                         manager_id: res.managerName
                     }
                 );
+                console.log('\n');
                 console.table(res);
+                console.log('\n');
+
                 viewEmployees();
             })
             .catch((error) => {
