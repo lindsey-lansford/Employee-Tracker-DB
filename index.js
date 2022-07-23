@@ -232,7 +232,6 @@ const addEmployee = () => {
                 name: 'roleName',
                 message: "Please select the employee's new role.",
                 choices: roleChoices
-                    
             },
             {
                 type: 'list',
@@ -263,13 +262,51 @@ const addEmployee = () => {
     })
 };
 
-
-
-
-
+//no working yet......
 const updateEmployee = () => {
     console.log('\n***** Updating Employee Role *****\n');
+
+    const sqlEmployee = 'SELECT id, first_name, last_name FROM employees ORDER BY id;';
+    
+    db.query(sqlEmployee, (error, employeeData) => {
+        if (error) throw error;
+        const employeeChoices = employeeData.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }));
+        
+    
+        const sqlRoles = 'SELECT id, title FROM roles ORDER BY roles.id;';
+        
+        db.query(sqlRoles, (err, rolesData) => {
+            if (err) throw err;
+            const roleChoices = rolesData.map(({ id, title }) => ({
+                name: title,
+                value: id
+            }));
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employeeToUpdate',
+                    message: 'Please select the employee you wish to update.',
+                    choice: employeeChoices
+                },
+                {
+                    type: 'list',
+                    name: 'roleToUpdate',
+                    message: "Please select the employee's role you wish to update.",
+                    choice: roleChoices
+                },
+                {
+                    type: 'input',
+                    name: 'updateRole',
+                    message: 'Please enter the updated role.'
+                }
+            ]).then((answers) => {
+                console.table(answers)
+            })
+        });
+    })
 };
-
-
 
