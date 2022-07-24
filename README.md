@@ -30,7 +30,7 @@ To install this application, you will need to clone the repo and run a few comma
 
 * ``npm install console.table`` (This package formats your data output in an easier to read table.) *optional*
 
-* ``npm install mysql`` (This package renders a splash screen in text console with logo from ASCII characters.) *optional*
+* ``npm install asciiart-logo`` (This package renders a splash screen in text console with logo from ASCII characters.) *optional*
 
 
 >_If you want to learn more about any of these npm packages, [click here](https://www.npmjs.com/)._
