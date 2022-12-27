@@ -7,7 +7,6 @@ This project is a command-line application to create, read and update a company'
 
 ## Table of Contents
 
-- [Employee Tracker SQL Database](#employee-tracker-sql-database)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
