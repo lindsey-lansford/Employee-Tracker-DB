@@ -7,12 +7,17 @@ This project is a command-line application to create, read and update a company'
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [License](#license)
-* [Contributions](#how-to-contribute)
-* [Tests](#tests)
-* [Questions](#questions)
+- [Employee Tracker SQL Database](#employee-tracker-sql-database)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [How to Contribute](#how-to-contribute)
+  - [Tests](#tests)
+  - [Questions](#questions)
+  - [Walkthrough Demonstration](#walkthrough-demonstration)
+  - [Mockups](#mockups)
 
 ## Installation
 
@@ -57,7 +62,7 @@ At this time, no tests have been documented for this application.
 Please reach out with any questions you may have about this application.
 
 * :octocat: GitHub: [@lindsey-lansford](https://github.com/lindsey-lansford)
-* :envelope: Email: lindsey.lansford@gmail.com
+* :envelope: Email: [lindsey.lansford@gmail.com](mailto:lindsey.lansford@gmail.com)
 
 -------------------------------------------------------
 ## Walkthrough Demonstration
